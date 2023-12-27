@@ -1,0 +1,107 @@
+import turtle as t
+import random as r
+
+t.tracer(0)
+N = 30 #Размер квадратика
+M = 12 #Размер поля
+
+def viravnivanie(razmer, pole): #Делает чтобы поле было по середине экрана
+    t.left(90)
+    t.forward(razmer * pole / 2)
+    t.left(90)
+    t.forward(razmer * pole / 2)
+    t.left(180)
+
+def kvadratik(cvet): #Рисует одну ячейку доски
+    t.color(cvet)
+    t.begin_fill()
+    for i in range(4):
+        t.forward(N)
+        t.right(90)
+    t.end_fill()
+    t.forward(N)
+
+def shashka(cvet): #Рисует ферзя
+    t.penup()
+    t.forward(N/5)
+    t.right(90)
+    t.forward(N / 5)
+    t.pendown()
+    t.color(cvet)
+    t.begin_fill()
+    t.forward(N / 5 * 3)
+    t.left(90)
+    t.forward(N / 5 * 3)
+    t.left(90)
+    t.forward(N / 5 * 3)
+    t.left(90)
+    t.forward(N / 5)
+    t.left(90)
+    t.forward(N / 5 * 2)
+    t.right(90)
+    t.forward(N / 5)
+    t.right(90)
+    t.forward(N / 5 * 2)
+    t.left(90)
+    t.forward(N / 5)
+    t.left(180)
+    t.end_fill()
+    t.penup()
+    t.left(90)
+    t.forward(N / 5)
+    t.left(90)
+    t.forward(N / 5)
+    t.left(180)
+
+def doska(razmer): #Рисует доску из ячеек
+    for i in range(razmer):
+        for j in range(razmer):
+            if ((j+i)%2 == 0):
+                kvadratik('orange');
+            else:
+                kvadratik('brown');
+        t.penup()
+        t.right(90)
+        t.forward(N)
+        t.right(90)
+        t.forward(N*razmer)
+        t.right(180)
+    t.left(90)
+    t.forward(N*razmer)
+    t.right(90)
+
+def rasstanovka(pole): #Расставляет фигуры на доске
+    for i in range(M):
+        for j in range(M):
+            if (pole[i][j] == 0):
+                t.forward(N)
+            elif ((i+j) % 2 == 0):
+                shashka('brown');
+                t.forward(N)
+            else:
+                shashka('orange');
+                t.forward(N)
+        t.penup()
+        t.right(90)
+        t.forward(N)
+        t.right(90)
+        t.forward(N * M)
+        t.right(180)
+
+def formirovanie(pole): #Формирует позиции шахмат в матрице
+    list = [i for i in range(M)]
+    list2 = [i for i in range(M)]
+    for i in range(8):
+        k = r.choice(list)
+        m = r.choice(list2)
+        pole[m][k] = 1
+        list.remove(k)
+        list2.remove(m)
+
+
+pole = [ [0]*M for i in range(M) ]
+formirovanie(pole);
+viravnivanie(N, M);
+doska(M);
+rasstanovka(pole);
+t.exitonclick()
