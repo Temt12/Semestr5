@@ -1,0 +1,33 @@
+from tkinter import *
+
+X, Y = 13, 3
+string = '0'
+btns = [['C', '7', '8', '9'],
+        ['+', '4', '5', '6'],
+        ['-', '1', '2', '3'],
+        ['/', '*', '0', '=']]
+
+def calc(s):
+    global string
+    if (s == '='):
+        string = str(eval(string))
+    elif (s == 'C'):
+        string = '0'
+    else:
+        if (string == '0'):
+            string = ''
+        string += s
+    lbl.config(text = string)
+
+win = Tk()
+win.title('Калькулятор')
+win.geometry('418x278')
+
+lbl = Label(win, text = string, height = Y, width = 4*X, fg = 'yellow', bg = 'grey', font = ('Courler', 10))
+lbl.grid(row = 0, column = 0, columnspan = 4)
+
+for i in range(len(btns)):
+    for j in range(len(btns[0])):
+        Button(win, text = btns[j][i], width = X, height = Y, fg = '#324Ca8', bg = '#FF99FF',
+               command = lambda b = btns[j][i] : calc(b)).grid(column = i, row = j + 1)
+win.mainloop()
